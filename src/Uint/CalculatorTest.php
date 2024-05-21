@@ -70,8 +70,24 @@ class CalculatorTest extends TestCase
     {
         $calculator = new Calculator();
 
-        $result = $calculator->add("//;\n1;3");
+        $result =  $calculator->add("//;\n1;3");
+        $result2 = $calculator->add("//|\n1|2|3");
+        $result3 = $calculator->add("//sep\n2sep5");
+        $result4 = $calculator->add("//|\n1|2|3|3");
+
 
         $this->assertEquals(4, $result);
+        $this->assertEquals(6, $result2);
+        $this->assertEquals(7, $result3);
+        $this->assertEquals(9, $result4);
+    }
+    public function testInvalidSeparator()
+    {
+        $calculator = new Calculator();
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage("'|' expected but ',' found at position 3.");
+
+        $calculator->add("//|\n1|2,3");
+
     }
 }
